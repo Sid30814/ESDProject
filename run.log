@@ -1,0 +1,91 @@
+[[1;34mINFO[m] Scanning for projects...
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m------------------------< [0;36mcom.example:tutorial[0;1m >------------------------[m
+[[1;34mINFO[m] [1mBuilding tutorial 1.0.0[m
+[[1;34mINFO[m] [1m--------------------------------[ jar ]---------------------------------[m
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m>>> [0;32mspring-boot-maven-plugin:3.2.0:run[m [1m(default-cli)[0;1m > [0;1mtest-compile[m @ [36mtutorial[0;1m >>>[m
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-resources-plugin:3.3.1:resources[m [1m(default-resources)[m @ [36mtutorial[0;1m ---[m
+[[1;34mINFO[m] Copying 1 resource from src/main/resources to target/classes
+[[1;34mINFO[m] Copying 1 resource from src/main/resources to target/classes
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-compiler-plugin:3.11.0:compile[m [1m(default-compile)[m @ [36mtutorial[0;1m ---[m
+[[1;34mINFO[m] Nothing to compile - all classes are up to date
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-resources-plugin:3.3.1:testResources[m [1m(default-testResources)[m @ [36mtutorial[0;1m ---[m
+[[1;34mINFO[m] skip non existing resourceDirectory /home/siddhesh-mahajan/Downloads/ESDproject/src/test/resources
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-compiler-plugin:3.11.0:testCompile[m [1m(default-testCompile)[m @ [36mtutorial[0;1m ---[m
+[[1;34mINFO[m] Nothing to compile - all classes are up to date
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m<<< [0;32mspring-boot-maven-plugin:3.2.0:run[m [1m(default-cli)[0;1m < [0;1mtest-compile[m @ [36mtutorial[0;1m <<<[m
+[[1;34mINFO[m] 
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mspring-boot-maven-plugin:3.2.0:run[m [1m(default-cli)[m @ [36mtutorial[0;1m ---[m
+[[1;34mINFO[m] Attaching agents: []
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.2.0)
+
+2025-11-25T12:09:55.011+05:30  INFO 14392 --- [           main] c.example.tutorial.TutorialApplication   : Starting TutorialApplication using Java 17.0.16 with PID 14392 (/home/siddhesh-mahajan/Downloads/ESDproject/target/classes started by siddhesh-mahajan in /home/siddhesh-mahajan/Downloads/ESDproject)
+2025-11-25T12:09:55.014+05:30  INFO 14392 --- [           main] c.example.tutorial.TutorialApplication   : No active profile set, falling back to 1 default profile: "default"
+2025-11-25T12:09:55.705+05:30  INFO 14392 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-11-25T12:09:55.770+05:30  INFO 14392 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 56 ms. Found 5 JPA repository interfaces.
+2025-11-25T12:09:56.283+05:30  INFO 14392 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-11-25T12:09:56.294+05:30  INFO 14392 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-11-25T12:09:56.294+05:30  INFO 14392 --- [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.16]
+2025-11-25T12:09:56.346+05:30  INFO 14392 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-11-25T12:09:56.348+05:30  INFO 14392 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1282 ms
+2025-11-25T12:09:56.487+05:30  INFO 14392 --- [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-11-25T12:09:56.527+05:30  INFO 14392 --- [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.3.1.Final
+2025-11-25T12:09:56.562+05:30  INFO 14392 --- [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-11-25T12:09:56.736+05:30  INFO 14392 --- [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-11-25T12:09:56.770+05:30  INFO 14392 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-11-25T12:09:57.044+05:30  INFO 14392 --- [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@485451d8
+2025-11-25T12:09:57.046+05:30  INFO 14392 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-11-25T12:09:57.884+05:30  INFO 14392 --- [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-11-25T12:09:57.976+05:30  INFO 14392 --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-11-25T12:09:58.300+05:30  INFO 14392 --- [           main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-11-25T12:09:58.613+05:30  WARN 14392 --- [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-11-25T12:09:58.689+05:30 DEBUG 14392 --- [           main] swordEncoderAuthenticationManagerBuilder : No authenticationProviders and no parentAuthenticationManager defined. Returning null.
+2025-11-25T12:09:58.929+05:30  INFO 14392 --- [           main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@a824f87, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@6789b471, org.springframework.security.web.context.SecurityContextHolderFilter@4e41b993, org.springframework.security.web.header.HeaderWriterFilter@296ddfc7, org.springframework.web.filter.CorsFilter@1eb3a6a3, org.springframework.security.web.authentication.logout.LogoutFilter@16a4e4c9, org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter@5854e526, org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter@77035caa, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@1c8d9ac9, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@30f0b75, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@7108b12d, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@7a80b2e6, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@1b6982e4, org.springframework.security.web.access.ExceptionTranslationFilter@33e6176b, org.springframework.security.web.access.intercept.AuthorizationFilter@12504d49]
+2025-11-25T12:09:59.166+05:30  INFO 14392 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path ''
+2025-11-25T12:09:59.177+05:30  INFO 14392 --- [           main] c.example.tutorial.TutorialApplication   : Started TutorialApplication in 4.627 seconds (process running for 4.939)
+Hibernate: insert into domain (name) values (?)
+Hibernate: insert into domain (name) values (?)
+Hibernate: insert into course (code,domain_id,faculty_name,name) values (?,?,?,?)
+Hibernate: insert into course (code,domain_id,faculty_name,name) values (?,?,?,?)
+Hibernate: insert into student (course_id,first_name,last_name,roll_number) values (?,?,?,?)
+Hibernate: insert into student (course_id,first_name,last_name,roll_number) values (?,?,?,?)
+Hibernate: insert into timetable_entry (course_id,day,room,time) values (?,?,?,?)
+Hibernate: insert into timetable_entry (course_id,day,room,time) values (?,?,?,?)
+2025-11-25T12:11:07.337+05:30  INFO 14392 --- [nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-11-25T12:11:07.337+05:30  INFO 14392 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-11-25T12:11:07.339+05:30  INFO 14392 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2025-11-25T12:11:07.353+05:30 DEBUG 14392 --- [nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing GET /api/domains
+2025-11-25T12:11:07.360+05:30  WARN 14392 --- [nio-8080-exec-1] o.s.w.s.h.HandlerMappingIntrospector     : Cache miss for REQUEST dispatch to '/api/domains' (previous null). Performing CorsConfiguration lookup. This is logged once only at WARN level, and every time at TRACE.
+2025-11-25T12:11:07.375+05:30  WARN 14392 --- [nio-8080-exec-1] o.s.w.s.h.HandlerMappingIntrospector     : Cache miss for REQUEST dispatch to '/api/domains' (previous null). Performing MatchableHandlerMapping lookup. This is logged once only at WARN level, and every time at TRACE.
+2025-11-25T12:11:07.382+05:30 DEBUG 14392 --- [nio-8080-exec-1] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2025-11-25T12:11:07.397+05:30 DEBUG 14392 --- [nio-8080-exec-1] o.s.s.w.s.HttpSessionRequestCache        : Saved request http://localhost:8080/api/domains?continue to session
+2025-11-25T12:11:07.400+05:30 DEBUG 14392 --- [nio-8080-exec-1] s.w.a.DelegatingAuthenticationEntryPoint : Trying to match using And [Not [RequestHeaderRequestMatcher [expectedHeaderName=X-Requested-With, expectedHeaderValue=XMLHttpRequest]], Not [And [Or [Ant [pattern='/login'], Ant [pattern='/favicon.ico']], And [Not [RequestHeaderRequestMatcher [expectedHeaderName=X-Requested-With, expectedHeaderValue=XMLHttpRequest]], MediaTypeRequestMatcher [contentNegotiationStrategy=org.springframework.web.accept.ContentNegotiationManager@6dae5562, matchingMediaTypes=[application/xhtml+xml, image/*, text/html, text/plain], useEquals=false, ignoredMediaTypes=[*/*]]]]], org.springframework.security.config.annotation.web.configurers.oauth2.client.OAuth2LoginConfigurer$$Lambda$1531/0x000076ebf0a43f40@2ffd2b53]
+2025-11-25T12:11:07.401+05:30 DEBUG 14392 --- [nio-8080-exec-1] s.w.a.DelegatingAuthenticationEntryPoint : Match found! Executing org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint@deb5a99
+2025-11-25T12:11:07.402+05:30 DEBUG 14392 --- [nio-8080-exec-1] o.s.s.web.DefaultRedirectStrategy        : Redirecting to http://localhost:8080/oauth2/authorization/google
+2025-11-25T12:11:07.414+05:30 DEBUG 14392 --- [nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Securing GET /oauth2/authorization/google
+2025-11-25T12:11:07.442+05:30 DEBUG 14392 --- [nio-8080-exec-2] o.s.s.web.DefaultRedirectStrategy        : Redirecting to https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=342529910598-fgm59suksi283dihcuiaim6pi22nfdhc.apps.googleusercontent.com&scope=openid%20profile%20email&state=9--qXqHNrvXdz3pTMKo8R1oUeWkw9FWzr4vn-DiyLgI%3D&redirect_uri=http://localhost:8080/login/oauth2/code/google&nonce=EiYbIKkQ_hU3xDu6T0TPa8IOqhjEZCNH81QxA-PN-4g
+2025-11-25T12:11:07.716+05:30 DEBUG 14392 --- [nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Securing GET /login/oauth2/code/google?state=9--qXqHNrvXdz3pTMKo8R1oUeWkw9FWzr4vn-DiyLgI%3D&code=4%2F0Ab32j93kwA1mk2EZTW5je7h3OSJeV96MAGpj84Ca4XxaOOyYTsWEBt3baCXLv10Ft47QLg&scope=email+profile+openid+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email&authuser=0&prompt=none
+2025-11-25T12:11:08.382+05:30 DEBUG 14392 --- [nio-8080-exec-3] .s.ChangeSessionIdAuthenticationStrategy : Changed session id from A1DBAC580BF5E0F86DB1CF00B1B3709B
+2025-11-25T12:11:08.383+05:30 DEBUG 14392 --- [nio-8080-exec-3] w.c.HttpSessionSecurityContextRepository : Stored SecurityContextImpl [Authentication=OAuth2AuthenticationToken [Principal=Name: [106177777121667976168], Granted Authorities: [[OIDC_USER, SCOPE_https://www.googleapis.com/auth/userinfo.email, SCOPE_https://www.googleapis.com/auth/userinfo.profile, SCOPE_openid]], User Attributes: [{at_hash=TDTN8f--omIjSPun9xiRiA, sub=106177777121667976168, email_verified=true, iss=https://accounts.google.com, given_name=Siddhesh, nonce=EiYbIKkQ_hU3xDu6T0TPa8IOqhjEZCNH81QxA-PN-4g, picture=https://lh3.googleusercontent.com/a/ACg8ocIIejiHFnUI8F3j0G3hAv-o8RcOR23jTURU9v_72iolkfzfMMk=s96-c, aud=[342529910598-fgm59suksi283dihcuiaim6pi22nfdhc.apps.googleusercontent.com], azp=342529910598-fgm59suksi283dihcuiaim6pi22nfdhc.apps.googleusercontent.com, name=Siddhesh Mahajan, exp=2025-11-25T07:41:08Z, family_name=Mahajan, iat=2025-11-25T06:41:08Z, email=siddheshmahajan814@gmail.com}], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=127.0.0.1, SessionId=A1DBAC580BF5E0F86DB1CF00B1B3709B], Granted Authorities=[OIDC_USER, SCOPE_https://www.googleapis.com/auth/userinfo.email, SCOPE_https://www.googleapis.com/auth/userinfo.profile, SCOPE_openid]]] to HttpSession [org.apache.catalina.session.StandardSessionFacade@45b3d9f1]
+2025-11-25T12:11:08.384+05:30 DEBUG 14392 --- [nio-8080-exec-3] .s.o.c.w.OAuth2LoginAuthenticationFilter : Set SecurityContextHolder to OAuth2AuthenticationToken [Principal=Name: [106177777121667976168], Granted Authorities: [[OIDC_USER, SCOPE_https://www.googleapis.com/auth/userinfo.email, SCOPE_https://www.googleapis.com/auth/userinfo.profile, SCOPE_openid]], User Attributes: [{at_hash=TDTN8f--omIjSPun9xiRiA, sub=106177777121667976168, email_verified=true, iss=https://accounts.google.com, given_name=Siddhesh, nonce=EiYbIKkQ_hU3xDu6T0TPa8IOqhjEZCNH81QxA-PN-4g, picture=https://lh3.googleusercontent.com/a/ACg8ocIIejiHFnUI8F3j0G3hAv-o8RcOR23jTURU9v_72iolkfzfMMk=s96-c, aud=[342529910598-fgm59suksi283dihcuiaim6pi22nfdhc.apps.googleusercontent.com], azp=342529910598-fgm59suksi283dihcuiaim6pi22nfdhc.apps.googleusercontent.com, name=Siddhesh Mahajan, exp=2025-11-25T07:41:08Z, family_name=Mahajan, iat=2025-11-25T06:41:08Z, email=siddheshmahajan814@gmail.com}], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=127.0.0.1, SessionId=A1DBAC580BF5E0F86DB1CF00B1B3709B], Granted Authorities=[OIDC_USER, SCOPE_https://www.googleapis.com/auth/userinfo.email, SCOPE_https://www.googleapis.com/auth/userinfo.profile, SCOPE_openid]]
+2025-11-25T12:11:08.384+05:30 DEBUG 14392 --- [nio-8080-exec-3] o.s.s.web.DefaultRedirectStrategy        : Redirecting to http://localhost:3000
+2025-11-25T12:11:08.594+05:30 DEBUG 14392 --- [nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Securing GET /api/user
+2025-11-25T12:11:08.603+05:30 DEBUG 14392 --- [nio-8080-exec-4] w.c.HttpSessionSecurityContextRepository : Retrieved SecurityContextImpl [Authentication=OAuth2AuthenticationToken [Principal=Name: [106177777121667976168], Granted Authorities: [[OIDC_USER, SCOPE_https://www.googleapis.com/auth/userinfo.email, SCOPE_https://www.googleapis.com/auth/userinfo.profile, SCOPE_openid]], User Attributes: [{at_hash=TDTN8f--omIjSPun9xiRiA, sub=106177777121667976168, email_verified=true, iss=https://accounts.google.com, given_name=Siddhesh, nonce=EiYbIKkQ_hU3xDu6T0TPa8IOqhjEZCNH81QxA-PN-4g, picture=https://lh3.googleusercontent.com/a/ACg8ocIIejiHFnUI8F3j0G3hAv-o8RcOR23jTURU9v_72iolkfzfMMk=s96-c, aud=[342529910598-fgm59suksi283dihcuiaim6pi22nfdhc.apps.googleusercontent.com], azp=342529910598-fgm59suksi283dihcuiaim6pi22nfdhc.apps.googleusercontent.com, name=Siddhesh Mahajan, exp=2025-11-25T07:41:08Z, family_name=Mahajan, iat=2025-11-25T06:41:08Z, email=siddheshmahajan814@gmail.com}], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=127.0.0.1, SessionId=A1DBAC580BF5E0F86DB1CF00B1B3709B], Granted Authorities=[OIDC_USER, SCOPE_https://www.googleapis.com/auth/userinfo.email, SCOPE_https://www.googleapis.com/auth/userinfo.profile, SCOPE_openid]]]
+2025-11-25T12:11:08.603+05:30 DEBUG 14392 --- [nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Secured GET /api/user
+2025-11-25T12:11:08.705+05:30 DEBUG 14392 --- [nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Securing GET /api/domains
+2025-11-25T12:11:08.709+05:30 DEBUG 14392 --- [nio-8080-exec-5] w.c.HttpSessionSecurityContextRepository : Retrieved SecurityContextImpl [Authentication=OAuth2AuthenticationToken [Principal=Name: [106177777121667976168], Granted Authorities: [[OIDC_USER, SCOPE_https://www.googleapis.com/auth/userinfo.email, SCOPE_https://www.googleapis.com/auth/userinfo.profile, SCOPE_openid]], User Attributes: [{at_hash=TDTN8f--omIjSPun9xiRiA, sub=106177777121667976168, email_verified=true, iss=https://accounts.google.com, given_name=Siddhesh, nonce=EiYbIKkQ_hU3xDu6T0TPa8IOqhjEZCNH81QxA-PN-4g, picture=https://lh3.googleusercontent.com/a/ACg8ocIIejiHFnUI8F3j0G3hAv-o8RcOR23jTURU9v_72iolkfzfMMk=s96-c, aud=[342529910598-fgm59suksi283dihcuiaim6pi22nfdhc.apps.googleusercontent.com], azp=342529910598-fgm59suksi283dihcuiaim6pi22nfdhc.apps.googleusercontent.com, name=Siddhesh Mahajan, exp=2025-11-25T07:41:08Z, family_name=Mahajan, iat=2025-11-25T06:41:08Z, email=siddheshmahajan814@gmail.com}], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=127.0.0.1, SessionId=A1DBAC580BF5E0F86DB1CF00B1B3709B], Granted Authorities=[OIDC_USER, SCOPE_https://www.googleapis.com/auth/userinfo.email, SCOPE_https://www.googleapis.com/auth/userinfo.profile, SCOPE_openid]]]
+2025-11-25T12:11:08.709+05:30 DEBUG 14392 --- [nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Secured GET /api/domains
