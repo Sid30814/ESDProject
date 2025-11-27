@@ -7,6 +7,7 @@ import com.example.tutorial.service.TimetableService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,5 +25,16 @@ public class TimetableServiceImpl implements TimetableService {
                 .stream()
                 .map(TimetableMapper::toDto)
                 .collect(Collectors.toList());
+    }
+
+    // NEW
+    @Override
+    public List<Map<String, Object>> getTimetableByDomain(String domain) {
+
+        if (domain == null || domain.isBlank()) {
+            return repository.findAllTimetable();
+        }
+
+        return repository.findTimetableByDomain(domain);
     }
 }
