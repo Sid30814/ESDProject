@@ -11,5 +11,5 @@ public class StudentDto {
     private String rollNumber;
     private String firstName;
     private String lastName;
-    private Long courseId;
+    private String email;
 }

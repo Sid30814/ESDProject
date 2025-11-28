@@ -39,30 +39,36 @@ export default function App() {
         }
     }, [user]);
 
-    const loadCourses = (domainId) => {
+    // 👇 DOMAIN CLICK — loads courses + timetable (merged)
+    const loadDomainData = async (domainId) => {
         setSelectedDomain(domainId);
         setSelectedCourse(null);
-        setTimetable([]);
+
         setStudents([]);
 
-        api.get(`/courses/${domainId}`).then(res => setCourses(res.data));
+        // Load courses
+        const c = await api.get(`/courses/${domainId}`);
+        setCourses(c.data);
+
+        // Load timetable for the domain
+        const t = await api.get(`/timetable/domain/${domainId}`);
+        setTimetable(t.data);
     };
 
-    const loadCourseData = (courseId) => {
+    // 👇 COURSE CLICK — loads enrolled students ONLY
+    const loadCourseData = async (courseId) => {
         setSelectedCourse(courseId);
 
-        api.get(`/timetable/${courseId}`).then(res => setTimetable(res.data));
-        api.get(`/students/${courseId}`).then(res => setStudents(res.data));
+        const s = await api.get(`/students/${courseId}`);
+        setStudents(s.data);
     };
 
-    // Loading screen
+    // ============ LOGIN LOADING ============
     if (loadingUser) return <div>Loading...</div>;
 
-    // -------------------------
-    // 🔒 LOGIN PAGE (Not logged in)
-    // -------------------------
+    // ============ LOGIN PAGE ============
     if (!user) {
-        const bgImage = "/campus.jpg"; // Your image inside public folder
+        const bgImage = "/campus.jpg";
 
         return (
             <div
@@ -70,10 +76,10 @@ export default function App() {
                     width: "100vw",
                     height: "100vh",
                     backgroundImage: `url(${bgImage})`,
-                    backgroundSize: "contain",       // <-- SHOW IMAGE AS IT IS
+                    backgroundSize: "contain",
                     backgroundRepeat: "no-repeat",
                     backgroundPosition: "center center",
-                    backgroundColor: "#ffffff",      // background behind the image
+                    backgroundColor: "#ffffff",
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center"
@@ -125,19 +131,19 @@ export default function App() {
         );
     }
 
-    // -------------------------
-    // 🟩 MAIN APPLICATION (Logged in)
-    // -------------------------
+    // ============ MAIN LOGGED IN UI ============
     return (
         <>
             <Navbar user={user} />
 
             <div className="layout">
+
+                {/* LEFT SIDEBAR */}
                 <div className="sidebar">
                     <DomainList
                         domains={domains}
                         selectedDomain={selectedDomain}
-                        onSelect={loadCourses}
+                        onSelect={loadDomainData}
                     />
 
                     <CourseList
@@ -147,10 +153,12 @@ export default function App() {
                     />
                 </div>
 
+                {/* MAIN CONTENT */}
                 <div className="content-area">
                     <Timetable timetable={timetable} />
                     <StudentList students={students} />
                 </div>
+
             </div>
         </>
     );

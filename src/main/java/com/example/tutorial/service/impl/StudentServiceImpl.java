@@ -20,7 +20,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public List<StudentDto> getStudentsByCourseId(Long courseId) {
-        return repo.findByCourseId(courseId)
+        return repo.findStudentsByCourseId(courseId)
                 .stream()
                 .map(StudentMapper::toDto)
                 .collect(Collectors.toList());

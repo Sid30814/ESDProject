@@ -1,14 +1,19 @@
 import React, { useEffect, useState } from "react";
 
 const DAYS = [
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-    "Sunday"
+    "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"
 ];
+
+// Convert "08:00 AM" → 0800, "06:00 PM" → 1800
+function to24HourFormat(timeStr) {
+    const [time, ampm] = timeStr.trim().split(" ");
+    let [h, m] = time.split(":").map(Number);
+
+    if (ampm === "PM" && h !== 12) h += 12;
+    if (ampm === "AM" && h === 12) h = 0;
+
+    return h * 100 + m;
+}
 
 export default function TimetableView() {
     const [domainList, setDomainList] = useState([]);
@@ -18,19 +23,14 @@ export default function TimetableView() {
     const [loading, setLoading] = useState(false);
     const [conflicts, setConflicts] = useState({});
 
+    // Load domain names
     useEffect(() => {
-        loadDomains();
-    }, []);
-
-    async function loadDomains() {
-        try {
+        (async () => {
             const res = await fetch("/api/domains");
             const data = await res.json();
             setDomainList(data.map((d) => d.name));
-        } catch (err) {
-            console.error("Failed to load domains", err);
-        }
-    }
+        })();
+    }, []);
 
     async function fetchData(domain) {
         if (!domain) {
@@ -47,37 +47,40 @@ export default function TimetableView() {
 
             setRows(data);
 
-            const slots = {};
+            // Extract unique times
+            const slotMap = {};
             data.forEach((r) => {
-                if (!r.time) return;
                 const [start, end] = r.time.split("-");
-                slots[`${start}-${end}`] = { start, end, label: `${start} - ${end}` };
+                const s = start.trim();
+                const e = end.trim();
+                slotMap[`${s}-${e}`] = {
+                    start: s,
+                    end: e,
+                    startInt: to24HourFormat(s)
+                };
             });
 
+            // Sort properly by real time
             setTimeSlots(
-                Object.values(slots).sort((a, b) => a.start.localeCompare(b.start))
+                Object.values(slotMap).sort((a, b) => a.startInt - b.startInt)
             );
 
             setConflicts(detectConflicts(data));
-
-        } catch (e) {
-            console.error(e);
+        } catch (err) {
+            console.error(err);
         } finally {
             setLoading(false);
         }
     }
 
+    // Detect room & faculty conflicts
     function detectConflicts(data) {
         const map = {};
         const out = {};
 
         data.forEach((r, idx) => {
-            if (!r.time) return;
-
-            const [start, end] = r.time.split("-");
-            const day = r.day;
-            const key = `${day}|${start}-${end}`;
-
+            const [start] = r.time.split("-");
+            const key = `${r.day}|${start.trim()}`;
             if (!map[key]) map[key] = [];
             map[key].push({ ...r, _idx: idx });
         });
@@ -87,34 +90,34 @@ export default function TimetableView() {
             const roomCount = {};
             const facCount = {};
 
-            list.forEach((i) => {
-                roomCount[i.room] = (roomCount[i.room] || 0) + 1;
-                facCount[i.faculty] = (facCount[i.faculty] || 0) + 1;
+            list.forEach((x) => {
+                roomCount[x.room] = (roomCount[x.room] || 0) + 1;
+                facCount[x.faculty] = (facCount[x.faculty] || 0) + 1;
             });
 
-            list.forEach((i) => {
+            list.forEach((x) => {
                 let problems = [];
-                if (roomCount[i.room] > 1) problems.push("room");
-                if (facCount[i.faculty] > 1) problems.push("faculty");
+                if (roomCount[x.room] > 1) problems.push("Room");
+                if (facCount[x.faculty] > 1) problems.push("Faculty");
 
-                if (problems.length) out[i._idx] = problems;
+                if (problems.length) out[x._idx] = problems;
             });
         });
 
         return out;
     }
 
+    // Build timetable grid
     function buildGrid() {
         const grid = {};
+
         rows.forEach((r, idx) => {
-            if (!r.time) return;
-
             const [start, end] = r.time.split("-");
-            const key = `${r.day}|${start}-${end}`;
-
+            const key = `${r.day}|${start.trim()}-${end.trim()}`;
             if (!grid[key]) grid[key] = [];
             grid[key].push({ ...r, _idx: idx });
         });
+
         return grid;
     }
 
@@ -122,73 +125,39 @@ export default function TimetableView() {
 
     return (
         <div className="card">
-            {/* HEADER */}
             <h2>Timetable</h2>
 
-            {/* DOMAIN DROPDOWN */}
+            {/* Domain Dropdown */}
             <div style={{ marginBottom: "20px" }}>
-                <label style={{ fontSize: "14px", color: "#555" }}>
-                    Select Domain
-                </label>
-                <br />
-
                 <select
                     value={selectedDomain}
                     onChange={(e) => {
-                        const domain = e.target.value;
-                        setSelectedDomain(domain);
-                        fetchData(domain);
+                        setSelectedDomain(e.target.value);
+                        fetchData(e.target.value);
                     }}
-                    style={{
-                        marginTop: "6px",
-                        padding: "10px",
-                        width: "250px",
-                        borderRadius: "8px",
-                        border: "1px solid #ccc",
-                        fontSize: "15px",
-                        background: "white",
-                        boxShadow: "0px 2px 4px rgba(0,0,0,0.05)"
-                    }}
+                    style={{ padding: "10px", fontSize: "15px" }}
                 >
-                    <option value="">-- Choose Domain --</option>
+                    <option value="">-- Select Domain --</option>
                     {domainList.map((d) => (
-                        <option key={d} value={d}>
-                            {d}
-                        </option>
+                        <option key={d} value={d}>{d}</option>
                     ))}
                 </select>
             </div>
 
-            {/* EMPTY MESSAGE */}
-            {!selectedDomain && (
-                <p style={{
-                    textAlign: "center",
-                    padding: "20px",
-                    color: "#666"
-                }}>
-                    Please select a domain to view its timetable.
-                </p>
-            )}
+            {!selectedDomain && <p>Select a domain to view timetable.</p>}
 
-            {/* LOADING */}
-            {loading && selectedDomain && (
-                <p style={{ padding: "10px" }}>Loading...</p>
-            )}
+            {loading && <p>Loading...</p>}
 
-            {/* TIMETABLE GRID */}
             {!loading && selectedDomain && (
-                <div style={{
-                    overflowX: "auto",
-                    borderRadius: "10px",
-                    border: "1px solid #eee"
-                }}>
+                <div style={{ overflowX: "auto" }}>
                     <table style={{ width: "100%", borderCollapse: "collapse" }}>
                         <thead>
-                        <tr style={{ background: "#f0f4ff" }}>
+                        <tr style={{ background: "#eef3ff" }}>
                             <th style={thStyle}>Day / Time</th>
+
                             {timeSlots.map((ts) => (
-                                <th key={ts.label} style={thStyle}>
-                                    {ts.label}
+                                <th key={ts.start} style={thStyle}>
+                                    {ts.start} - {ts.end}
                                 </th>
                             ))}
                         </tr>
@@ -197,11 +166,7 @@ export default function TimetableView() {
                         <tbody>
                         {DAYS.map((day) => (
                             <tr key={day}>
-                                <td style={{
-                                    ...tdStyle,
-                                    background: "#fafafa",
-                                    fontWeight: "600",
-                                }}>
+                                <td style={{ ...tdStyle, background: "#fafafa", fontWeight: "bold" }}>
                                     {day}
                                 </td>
 
@@ -219,25 +184,19 @@ export default function TimetableView() {
                                                         key={it._idx}
                                                         style={{
                                                             background: conflicts[it._idx]
-                                                                ? "#ffe6e6"
+                                                                ? "#ffeaea"
                                                                 : "#f9f9f9",
                                                             border: conflicts[it._idx]
-                                                                ? "1px solid #ff6b6b"
+                                                                ? "1px solid #ff4d4d"
                                                                 : "1px solid #ddd",
-                                                            padding: "10px",
-                                                            borderRadius: "8px",
-                                                            marginBottom: "10px",
-                                                            boxShadow: "0px 2px 6px rgba(0,0,0,0.08)"
+                                                            padding: "8px",
+                                                            borderRadius: "6px",
+                                                            marginBottom: "8px"
                                                         }}
                                                     >
-                                                        <strong>
-                                                            {it.course_code ? `${it.course_code} — ` : ""}
-                                                            {it.course_name}
-                                                        </strong>
+                                                        <b>{it.course_code} — {it.course_name}</b>
                                                         <br />
-                                                        <small style={{ color: "#555" }}>
-                                                            {it.faculty} • Room: {it.room}
-                                                        </small>
+                                                        <small>{it.faculty} • Room {it.room}</small>
 
                                                         {conflicts[it._idx] && (
                                                             <div style={{ color: "red", fontSize: "12px" }}>
@@ -260,19 +219,15 @@ export default function TimetableView() {
     );
 }
 
-/* CELL STYLING */
-
 const thStyle = {
-    padding: "12px",
+    padding: "10px",
     border: "1px solid #ddd",
-    fontWeight: "600",
-    fontSize: "14px",
     textAlign: "center",
-    background: "#f7faff"
+    fontWeight: "bold"
 };
 
 const tdStyle = {
-    padding: "12px",
+    padding: "10px",
     border: "1px solid #eee",
-    verticalAlign: "top",
+    verticalAlign: "top"
 };

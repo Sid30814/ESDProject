@@ -7,7 +7,12 @@ export default function StudentList({ students }) {
 
             {students.map(s => (
                 <div key={s.id} className="item">
-                    {s.rollNumber} — {s.firstName} {s.lastName}
+                    <strong>{s.rollNumber}</strong> — {s.firstName} {s.lastName}
+                    {s.email && (
+                        <span style={{ color: "#666", marginLeft: "6px" }}>
+                            ({s.email})
+                        </span>
+                    )}
                 </div>
             ))}
         </div>

@@ -9,10 +9,11 @@ import java.util.List;
 
 public interface StudentRepository extends JpaRepository<Student, Long> {
 
-    // Fetch students by course id (used by frontend when user selects a course)
-    List<Student> findByCourseId(Long courseId);
+    // NEW: fetch students using many-to-many join
+    @Query("SELECT s FROM Student s JOIN s.courses c WHERE c.id = :courseId")
+    List<Student> findStudentsByCourseId(@Param("courseId") Long courseId);
 
-    // If you still need domain-based lookup, keep this too
-    @Query("SELECT s FROM Student s WHERE s.course.domain.id = :domainId")
+    // If needed later
+    @Query("SELECT s FROM Student s WHERE s.domain.id = :domainId")
     List<Student> findByDomainId(@Param("domainId") Long domainId);
 }
