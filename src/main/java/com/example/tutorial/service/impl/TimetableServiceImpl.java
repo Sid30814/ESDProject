@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
 public class TimetableServiceImpl implements TimetableService {
@@ -24,17 +23,11 @@ public class TimetableServiceImpl implements TimetableService {
         return repository.findByCourseId(courseId)
                 .stream()
                 .map(TimetableMapper::toDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
-    // NEW
     @Override
-    public List<Map<String, Object>> getTimetableByDomain(String domain) {
-
-        if (domain == null || domain.isBlank()) {
-            return repository.findAllTimetable();
-        }
-
-        return repository.findTimetableByDomain(domain);
+    public List<Map<String, Object>> getTimetableByDomain(Long domainId) {
+        return repository.findTimetableByDomain(domainId);
     }
 }

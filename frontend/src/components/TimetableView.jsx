@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useMemo } from "react";
 
 const DAYS = [
     "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"
 ];
 
-// Convert "08:00 AM" → 0800, "06:00 PM" → 1800
-function to24HourFormat(timeStr) {
+// Convert "08:00 AM" → 800, "07:00 PM" → 1900
+function to24(timeStr) {
     const [time, ampm] = timeStr.trim().split(" ");
     let [h, m] = time.split(":").map(Number);
 
@@ -15,140 +15,48 @@ function to24HourFormat(timeStr) {
     return h * 100 + m;
 }
 
-export default function TimetableView() {
-    const [domainList, setDomainList] = useState([]);
-    const [selectedDomain, setSelectedDomain] = useState("");
-    const [rows, setRows] = useState([]);
-    const [timeSlots, setTimeSlots] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const [conflicts, setConflicts] = useState({});
+export default function TimetableView({ timetable }) {
 
-    // Load domain names
-    useEffect(() => {
-        (async () => {
-            const res = await fetch("/api/domains");
-            const data = await res.json();
-            setDomainList(data.map((d) => d.name));
-        })();
-    }, []);
+    // --------------- Extract Unique Time Slots ---------------
+    const timeSlots = useMemo(() => {
+        const slotMap = {};
 
-    async function fetchData(domain) {
-        if (!domain) {
-            setRows([]);
-            setTimeSlots([]);
-            return;
-        }
-
-        setLoading(true);
-
-        try {
-            const res = await fetch(`/api/timetable?domain=${encodeURIComponent(domain)}`);
-            const data = await res.json();
-
-            setRows(data);
-
-            // Extract unique times
-            const slotMap = {};
-            data.forEach((r) => {
-                const [start, end] = r.time.split("-");
-                const s = start.trim();
-                const e = end.trim();
-                slotMap[`${s}-${e}`] = {
-                    start: s,
-                    end: e,
-                    startInt: to24HourFormat(s)
-                };
-            });
-
-            // Sort properly by real time
-            setTimeSlots(
-                Object.values(slotMap).sort((a, b) => a.startInt - b.startInt)
-            );
-
-            setConflicts(detectConflicts(data));
-        } catch (err) {
-            console.error(err);
-        } finally {
-            setLoading(false);
-        }
-    }
-
-    // Detect room & faculty conflicts
-    function detectConflicts(data) {
-        const map = {};
-        const out = {};
-
-        data.forEach((r, idx) => {
-            const [start] = r.time.split("-");
-            const key = `${r.day}|${start.trim()}`;
-            if (!map[key]) map[key] = [];
-            map[key].push({ ...r, _idx: idx });
+        timetable.forEach((t) => {
+            const [start, end] = t.time.split("-");
+            slotMap[t.time] = {
+                start: start.trim(),
+                end: end.trim(),
+                startInt: to24(start.trim())
+            };
         });
 
-        Object.values(map).forEach((list) => {
-            if (list.length <= 1) return;
-            const roomCount = {};
-            const facCount = {};
+        return Object.values(slotMap).sort((a, b) => a.startInt - b.startInt);
+    }, [timetable]);
 
-            list.forEach((x) => {
-                roomCount[x.room] = (roomCount[x.room] || 0) + 1;
-                facCount[x.faculty] = (facCount[x.faculty] || 0) + 1;
-            });
+    // --------------- Build Grid ---------------
+    const grid = useMemo(() => {
+        const g = {};
 
-            list.forEach((x) => {
-                let problems = [];
-                if (roomCount[x.room] > 1) problems.push("Room");
-                if (facCount[x.faculty] > 1) problems.push("Faculty");
+        timetable.forEach((t, idx) => {
+            const [start, end] = t.time.split("-");
+            const key = `${t.day}|${start.trim()}-${end.trim()}`;
 
-                if (problems.length) out[x._idx] = problems;
-            });
+            if (!g[key]) g[key] = [];
+            g[key].push({ ...t, _idx: idx });
         });
 
-        return out;
-    }
-
-    // Build timetable grid
-    function buildGrid() {
-        const grid = {};
-
-        rows.forEach((r, idx) => {
-            const [start, end] = r.time.split("-");
-            const key = `${r.day}|${start.trim()}-${end.trim()}`;
-            if (!grid[key]) grid[key] = [];
-            grid[key].push({ ...r, _idx: idx });
-        });
-
-        return grid;
-    }
-
-    const grid = buildGrid();
+        return g;
+    }, [timetable]);
 
     return (
         <div className="card">
             <h2>Timetable</h2>
 
-            {/* Domain Dropdown */}
-            <div style={{ marginBottom: "20px" }}>
-                <select
-                    value={selectedDomain}
-                    onChange={(e) => {
-                        setSelectedDomain(e.target.value);
-                        fetchData(e.target.value);
-                    }}
-                    style={{ padding: "10px", fontSize: "15px" }}
-                >
-                    <option value="">-- Select Domain --</option>
-                    {domainList.map((d) => (
-                        <option key={d} value={d}>{d}</option>
-                    ))}
-                </select>
-            </div>
+            {timetable.length === 0 && (
+                <p style={{ color: "#777" }}>Select a domain to view timetable.</p>
+            )}
 
-            {!selectedDomain && <p>Select a domain to view timetable.</p>}
-
-            {loading && <p>Loading...</p>}
-
-            {!loading && selectedDomain && (
+            {timetable.length > 0 && (
                 <div style={{ overflowX: "auto" }}>
                     <table style={{ width: "100%", borderCollapse: "collapse" }}>
                         <thead>
@@ -157,7 +65,7 @@ export default function TimetableView() {
 
                             {timeSlots.map((ts) => (
                                 <th key={ts.start} style={thStyle}>
-                                    {ts.start} - {ts.end}
+                                    {ts.start} – {ts.end}
                                 </th>
                             ))}
                         </tr>
@@ -177,32 +85,22 @@ export default function TimetableView() {
                                     return (
                                         <td key={key} style={tdStyle}>
                                             {list.length === 0 ? (
-                                                <span style={{ color: "#bbb" }}>—</span>
+                                                <span style={{ color: "#ccc" }}>—</span>
                                             ) : (
                                                 list.map((it) => (
                                                     <div
                                                         key={it._idx}
                                                         style={{
-                                                            background: conflicts[it._idx]
-                                                                ? "#ffeaea"
-                                                                : "#f9f9f9",
-                                                            border: conflicts[it._idx]
-                                                                ? "1px solid #ff4d4d"
-                                                                : "1px solid #ddd",
+                                                            border: "1px solid #ddd",
                                                             padding: "8px",
                                                             borderRadius: "6px",
+                                                            background: "#f9f9f9",
                                                             marginBottom: "8px"
                                                         }}
                                                     >
                                                         <b>{it.course_code} — {it.course_name}</b>
                                                         <br />
                                                         <small>{it.faculty} • Room {it.room}</small>
-
-                                                        {conflicts[it._idx] && (
-                                                            <div style={{ color: "red", fontSize: "12px" }}>
-                                                                Conflict: {conflicts[it._idx].join(", ")}
-                                                            </div>
-                                                        )}
                                                     </div>
                                                 ))
                                             )}
@@ -223,11 +121,13 @@ const thStyle = {
     padding: "10px",
     border: "1px solid #ddd",
     textAlign: "center",
-    fontWeight: "bold"
+    fontWeight: "bold",
+    whiteSpace: "nowrap"
 };
 
 const tdStyle = {
     padding: "10px",
     border: "1px solid #eee",
-    verticalAlign: "top"
+    verticalAlign: "top",
+    minWidth: "150px"
 };

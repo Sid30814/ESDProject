@@ -13,9 +13,15 @@ public class TimetableMapper {
                 .day(t.getDay())
                 .time(t.getTime())
                 .room(t.getRoom())
-                .courseName(t.getCourse().getName())
                 .courseCode(t.getCourse().getCode())
-                .facultyName(t.getCourse().getFacultyName())
+                .courseName(t.getCourse().getName())
+                .facultyName(
+                        t.getCourse().getFaculty() != null
+                                ? t.getCourse().getFaculty().getFirstName()
+                                + " " +
+                                t.getCourse().getFaculty().getLastName()
+                                : "Unknown"
+                )
                 .build();
     }
 }

@@ -3,51 +3,47 @@ package com.example.tutorial.repository;
 import com.example.tutorial.entity.TimetableEntry;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Map;
 
 public interface TimetableRepository extends JpaRepository<TimetableEntry, Long> {
 
-    // Existing endpoint
     List<TimetableEntry> findByCourseId(Long courseId);
 
-    // NEW: domain timetable
     @Query("""
-        SELECT new map(
-            t.day AS day,
-            t.time AS time,
-            t.room AS room,
+        SELECT 
             c.code AS course_code,
             c.name AS course_name,
-            c.facultyName AS faculty,
-            d.name AS domain
-        )
+            CONCAT(f.firstName, ' ', f.lastName) AS faculty,
+            d.name AS domain,
+            t.day AS day,
+            t.time AS time,
+            t.room AS room
         FROM TimetableEntry t
-        JOIN t.course c
-        JOIN c.domain d
-        WHERE d.name = :domain
+        JOIN Course c ON t.course.id = c.id
+        JOIN Domain d ON c.domain.id = d.id
+        JOIN Faculty f ON c.faculty.id = f.id
+        WHERE d.id = :domainId
         ORDER BY t.day, t.time
-        """)
-    List<Map<String, Object>> findTimetableByDomain(@Param("domain") String domain);
+    """)
+    List<Map<String,Object>> findTimetableByDomain(Long domainId);
 
 
-    // NEW: fetch ALL domains' timetables
     @Query("""
-        SELECT new map(
-            t.day AS day,
-            t.time AS time,
-            t.room AS room,
+        SELECT 
             c.code AS course_code,
             c.name AS course_name,
-            c.facultyName AS faculty,
-            d.name AS domain
-        )
+            CONCAT(f.firstName, ' ', f.lastName) AS faculty,
+            d.name AS domain,
+            t.day AS day,
+            t.time AS time,
+            t.room AS room
         FROM TimetableEntry t
-        JOIN t.course c
-        JOIN c.domain d
-        ORDER BY d.name, t.day, t.time
-        """)
-    List<Map<String, Object>> findAllTimetable();
+        JOIN Course c ON t.course.id = c.id
+        JOIN Domain d ON c.domain.id = d.id
+        JOIN Faculty f ON c.faculty.id = f.id
+        ORDER BY t.day, t.time
+    """)
+    List<Map<String,Object>> findAllTimetable();
 }

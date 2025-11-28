@@ -3,12 +3,20 @@ package com.example.tutorial.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Entity
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
 public class Faculty {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String firstName;
     private String lastName;
+
+    @Column(unique = true)
     private String email;
 }

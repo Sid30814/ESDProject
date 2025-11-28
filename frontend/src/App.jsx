@@ -3,7 +3,7 @@ import api from "./api";
 import Navbar from "./components/Navbar";
 import DomainList from "./components/DomainList";
 import CourseList from "./components/CourseList";
-import Timetable from "./components/TimetableView";
+import TimetableView from "./components/TimetableView";
 import StudentList from "./components/StudentList";
 
 export default function App() {
@@ -19,7 +19,7 @@ export default function App() {
     const [selectedDomain, setSelectedDomain] = useState(null);
     const [selectedCourse, setSelectedCourse] = useState(null);
 
-    // Fetch logged-in user
+    // --------------------- FETCH LOGGED-IN USER ---------------------
     useEffect(() => {
         api.get("/user")
             .then(res => {
@@ -32,30 +32,33 @@ export default function App() {
             });
     }, []);
 
-    // Load domains only when logged in
+    // --------------------- FETCH DOMAINS WHEN LOGGED-IN ---------------------
     useEffect(() => {
         if (user) {
             api.get("/domains").then(res => setDomains(res.data));
         }
     }, [user]);
 
-    // 👇 DOMAIN CLICK — loads courses + timetable (merged)
+    // ---------------------------------------------------------
+    // DOMAIN CLICK → loads courses + full domain-wise timetable
+    // ---------------------------------------------------------
     const loadDomainData = async (domainId) => {
         setSelectedDomain(domainId);
         setSelectedCourse(null);
-
         setStudents([]);
 
-        // Load courses
+        // Fetch all courses under selected domain
         const c = await api.get(`/courses/${domainId}`);
         setCourses(c.data);
 
-        // Load timetable for the domain
+        // Fetch full timetable for the selected domain
         const t = await api.get(`/timetable/domain/${domainId}`);
         setTimetable(t.data);
     };
 
-    // 👇 COURSE CLICK — loads enrolled students ONLY
+    // ---------------------------------------------------------
+    // COURSE CLICK → loads enrolled students
+    // ---------------------------------------------------------
     const loadCourseData = async (courseId) => {
         setSelectedCourse(courseId);
 
@@ -63,12 +66,12 @@ export default function App() {
         setStudents(s.data);
     };
 
-    // ============ LOGIN LOADING ============
+    // --------------------- LOADING ---------------------
     if (loadingUser) return <div>Loading...</div>;
 
-    // ============ LOGIN PAGE ============
+    // --------------------- LOGIN PAGE (INLINE UI) ---------------------
     if (!user) {
-        const bgImage = "/campus.jpg";
+        const bgImage = "/19198406.jpg";
 
         return (
             <div
@@ -76,54 +79,60 @@ export default function App() {
                     width: "100vw",
                     height: "100vh",
                     backgroundImage: `url(${bgImage})`,
-                    backgroundSize: "contain",
+                    backgroundSize: "cover",
                     backgroundRepeat: "no-repeat",
-                    backgroundPosition: "center center",
-                    backgroundColor: "#ffffff",
+                    backgroundPosition: "center",
                     display: "flex",
                     justifyContent: "center",
-                    alignItems: "center"
+                    alignItems: "center",
+                    backdropFilter: "blur(3px)"
                 }}
             >
                 <div
                     style={{
                         background: "rgba(255, 255, 255, 0.85)",
                         padding: "40px",
-                        borderRadius: "12px",
+                        borderRadius: "16px",
                         textAlign: "center",
-                        width: "400px",
-                        boxShadow: "0px 4px 20px rgba(0,0,0,0.3)",
-                        backdropFilter: "blur(6px)"
+                        width: "420px",
+                        boxShadow: "0 4px 25px rgba(0,0,0,0.3)",
+                        animation: "fadeIn 0.8s",
                     }}
                 >
-                    <h2 style={{ marginBottom: "10px" }}>Welcome to Academic ERP</h2>
-                    <p style={{ marginBottom: "25px" }}>
-                        Please login using your Google account
+                    <h2 style={{ fontSize: "26px", marginBottom: "10px", color: "#333" }}>
+                        Welcome to Academic ERP
+                    </h2>
+
+                    <p style={{ marginBottom: "25px", color: "#555", fontSize: "15px" }}>
+                        Login using your IIITB Google account
                     </p>
 
                     <a href="http://localhost:8080/oauth2/authorization/google">
                         <button
                             style={{
                                 backgroundColor: "#4285F4",
-                                color: "#fff",
+                                color: "white",
                                 padding: "12px 18px",
+                                borderRadius: "10px",
                                 border: "none",
-                                borderRadius: "8px",
-                                fontSize: "16px",
-                                cursor: "pointer",
+                                fontSize: "17px",
                                 width: "100%",
+                                cursor: "pointer",
                                 display: "flex",
                                 justifyContent: "center",
                                 alignItems: "center",
-                                gap: "10px"
+                                gap: "12px",
+                                transition: "0.3s",
                             }}
+                            onMouseOver={(e) => e.target.style.transform = "scale(1.03)"}
+                            onMouseOut={(e) => e.target.style.transform = "scale(1)"}
                         >
                             <img
                                 src="https://developers.google.com/identity/images/g-logo.png"
                                 alt="Google"
-                                style={{ width: "20px", height: "20px" }}
+                                style={{ width: "22px", height: "22px" }}
                             />
-                            Login with Google
+                            Sign in with Google
                         </button>
                     </a>
                 </div>
@@ -131,7 +140,7 @@ export default function App() {
         );
     }
 
-    // ============ MAIN LOGGED IN UI ============
+    // --------------------- MAIN DASHBOARD ---------------------
     return (
         <>
             <Navbar user={user} />
@@ -153,12 +162,11 @@ export default function App() {
                     />
                 </div>
 
-                {/* MAIN CONTENT */}
+                {/* RIGHT CONTENT AREA */}
                 <div className="content-area">
-                    <Timetable timetable={timetable} />
+                    <TimetableView timetable={timetable} />
                     <StudentList students={students} />
                 </div>
-
             </div>
         </>
     );

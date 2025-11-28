@@ -18,12 +18,13 @@ public class Course {
     private String code;
     private String name;
 
-    @Column(nullable = false)
-    private String facultyName;
-
     @ManyToOne
     @JoinColumn(name = "domain_id")
     private Domain domain;
+
+    @ManyToOne
+    @JoinColumn(name = "faculty_id")
+    private Faculty faculty;
 
     @ManyToMany(mappedBy = "courses")
     private List<Student> students;

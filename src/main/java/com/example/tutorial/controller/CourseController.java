@@ -1,7 +1,7 @@
 package com.example.tutorial.controller;
 
 import com.example.tutorial.DTO.CourseDto;
-import com.example.tutorial.service.impl.CourseService;
+import com.example.tutorial.service.CourseService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
