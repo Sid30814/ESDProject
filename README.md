@@ -1,7 +1,7 @@
 Academic ERP Portal — Full Stack (Spring Boot + React + MySQL)
 
-A mini Academic ERP system that displays Domains → Courses → Enrolled Students and provides a weekly Timetable grid with faculty & room conflict detection.
-Includes Google OAuth Login, dynamic roll number generation, domain-based course filtering, and a modern UI.
+A mini Academic ERP system that displays Domains → Courses → Enrolled Students and provides a weekly Timetable grid with faculty & room.
+Includes Google OAuth Login, domain-based course filtering, and a modern UI.
  Features
 1) Authentication
 
